@@ -1,0 +1,30 @@
+#!/bin/bash
+
+path="."
+
+if [ $# -ge 1 ]; then
+    if [ -d $path ]; then
+        path=$1;
+    fi
+fi
+
+function recursive_print()
+{
+    local path=$1
+    local indent=$2
+    
+    for entry in "$path"/*; do
+        if [ -d $entry ]; then
+            echo $indent "|----" ${entry##*/}
+            recursive_print $entry "$indent|     "
+        else
+            echo $indent "|----" ${entry##*/}
+        fi
+    done
+}
+
+echo $path
+
+if [ -d $path ]; then
+    recursive_print $path ""
+fi
